@@ -3,6 +3,9 @@ var app = express();
 var path = require('path');
 app.use(express.static(path.join(__dirname,'public')));
 app.get('/',function(req,res){
+	res.sendFile(path.join(__dirname + '/Home-page.html'));
+});
+app.get('/login',function(req,res){
 	res.sendFile(path.join(__dirname + '/index-manufacturer.html'));
 });
 app.get('/home',function(req,res){
