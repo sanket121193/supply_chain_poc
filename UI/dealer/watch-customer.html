@@ -72,6 +72,7 @@ tr:hover {background-color:rgb(225, 235, 236);}
 
 <script>
     $(document).ready(function() {
+
  function LoadData(){
    //alert(token);
    $.ajax( {
@@ -152,7 +153,14 @@ tr:hover {background-color:rgb(225, 235, 236);}
        LoadData();
  });
  
-   $('#customer-watch-input').DataTable({"paging":   false,"searching": false
+   $('#customer-watch-input').DataTable({"paging":   false,
+    "searching": false,
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": false,
+    "bInfo": false,
+    "bAutoWidth": false,
+    "destory": true
     });
    var t = $('#customer-watch-input').DataTable();
 });

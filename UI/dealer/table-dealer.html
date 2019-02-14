@@ -131,24 +131,24 @@ hr {
 </head>
 
 <body style="background-color:rgb(225, 235, 236);">
-    <div id="mySidenav" class="sidenav">
+    <!-- <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="#" class="sidenavtop">Dashboard</a>
         <a href="watch-history" class="sidenavtop">Watch History</a>
         <a href="#" class="sidenavbot">About Rolex</a>
         <a href="#" class="sidenavbot">Terms & Policies</a>
-    </div>
+    </div> -->
     
     <div id="main">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="watch-customer"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-eye-open"> Watches with customers</span></a></li>
-                <li><a href="#"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-user"> SignUp</span></a></li>
+                <li><a href="watch-customer"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-eye-open"> Watches@Customers</span></a></li>
                 <li><a href="/"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-log-out"> Logout</span></a></li>
             </ul>
-            <span style="color:maroon;cursor:pointer" onclick="openNav()">&#9776;<img src="./public/images/rolex-logo.png" height="35" width="40"></span>
+            <span style="color:maroon;cursor:pointer" onclick="openNav()"><img src="/images/rolex-logo.png" height="35" width="40"></span>
     </div>
      
 <div id="main">
+  <h3 color=maroon> Showing available watches with dealers:</h3>
     <table style="width:100%" id="dealer-watch-input">
         <thead>
           <tr>
@@ -167,6 +167,7 @@ hr {
 </table>
 <div>
     <button class="button" id="saleBtn">Transfer</button>
+    <button class="button" id="historyBtn">View Watch History</button>
 </div>
 </div>
 
@@ -183,6 +184,9 @@ hr {
 <script>
   $("#saleBtn").click(function(){
       window.location.href = "transfer";
+});
+$("#historyBtn").click(function(){
+      window.location.href = "watch-history";
 });
   function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
@@ -236,6 +240,7 @@ hr {
 
 <script>
   $(document).ready(function() {
+
 function LoadData(){
 //alert(token);
 $.ajax( {
@@ -314,7 +319,13 @@ $('.loadData').click(function(){
    LoadData();
 });
 
-$('#dealer-watch-input').DataTable({"paging":   false,"searching": false
+$('#dealer-watch-input').DataTable({"paging":   false,
+    "searching": false,
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": false,
+    "bInfo": false,
+    "bAutoWidth": false
 });
 var t = $('#dealer-watch-input').DataTable();
 });

@@ -22,6 +22,7 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 	logger.debug(util.format('\n============ invoke transaction on channel %s ============\n', channelName));
 	var error_message = null;
 	var tx_id_string = null;
+        var blocknum = null;
 	try {
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
@@ -92,8 +93,11 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 					}, 100000);
 					eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
 						logger.info('The chaincode invoke chaincode transaction has been committed on peer %s',eh.getPeerAddr());
+                                                blocknum = block_num;
 						logger.info('Transaction %s has status of %s in blocl %s', tx, code, block_num);
 						clearTimeout(event_timeout);
+
+                                                
 
 						if (code !== 'VALID') {
 							let message = util.format('The invoke chaincode transaction was invalid, code:%s',code);
@@ -166,7 +170,7 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 			org_name, channelName, tx_id_string);
 		logger.info(message);
 
-		//return JSON.parse(tx_id_string);
+		return [tx_id_string, blocknum];
 	} else {
 		let message = util.format('Failed to invoke chaincode. cause:%s',error_message);
 		logger.error(message);

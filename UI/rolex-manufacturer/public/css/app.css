@@ -1,7 +1,7 @@
 /*Overwrite CSS*/
 a, a:hover, a:active, a:focus{color: #548235; text-decoration: none;}
 /*Navbar Overwrites*/
-.navbar-nav > li > a { color: #fff; font-size: 24px; padding:30px 40px; }
+.navbar-nav > li > a { color: transparent; font-size: 24px; padding:30px 40px; }
 .navbar-nav > li > a:hover  { background: transparent;}
 /*Button Overwrites*/
 button.btn-primary, button.btn-primary:hover,button.btn-primary:active, button.btn-primary:focus {background: #bf9000;border-color: #bf9000;border-radius: 0;}

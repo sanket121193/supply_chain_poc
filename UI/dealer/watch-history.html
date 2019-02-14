@@ -11,7 +11,11 @@ body {
   transition: background-color .5s;
   margin-left: 2%;
   margin-right: 2%;
+  background-image: url("/images/rolex_history.jpg");
+  background-repeat: no-repeat;
+  background-size: 130% 675px ;
 }
+
 #main {
   transition: margin-left .5s;
   padding: 20px;
@@ -19,7 +23,7 @@ body {
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
-}
+}  
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -35,23 +39,24 @@ body {
 }
 /* Modal Content */
 .modal-content {
+  position: relative;
   background-color: #fefefe;
   margin: auto;
-  padding: 40px;
+  padding: 30px;
   padding-top: 30px;
   border: 1px solid #888;
   width: 80%;
 }
 /* The Close Button */
 .close {
-  color: #aaaaaa;
+  color: black;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 .close:hover,
 .close:focus {
-  color: #000;
+  color:red;
   text-decoration: none;
   cursor: pointer;
 }
@@ -60,8 +65,9 @@ table, th, td {
   font-family: "MerriweatherLight Regular";
   font-size: 15px;
   color:rgb(0, 0, 0);
+  word-wrap: break-word;
 }
-hr { 
+hr {
   display: block;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -71,17 +77,36 @@ hr {
   border-style: inset;
   border-width: 1px;
 }
+.span1{
+  position: absolute;
+  top: 200px;
+  text-align: center;
+  font-family: "MerriweatherLight Regular";
+  font-size: 18px;
+  color: rgb(190, 157, 157);
+}
+.span1 .change{
+  color: black;
+}
 </style>
 </head>
+
 <body style="background-color:rgb(225, 235, 236);">
         <div id="main">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="watches"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-eye-open"> Watches with you</span></a></li>
-                    <li><a href="/"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-log-out"> Logout</span></a></li>
+                    <li><a href="watches"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-home"> Home</span></a></li>
                 </ul>
                 <span style="font-size:30px;color:maroon;cursor:pointer" ><img src="../images/rolex-logo.png" height="35" width="40"></span>
         </div>
-       <h4>To get the history of your rolex watch, click here: <button id="myBtn">Details</button></h4>
+        <span class="span1"> 
+          <div class="container">
+            <div class="row">
+              <div class= "col-md-4">
+          <p>Hans Wilsdorf, the founder of Rolex, wanted his watches to bear a name that was short, easy to say and remember in any language, and which looked good on watch movements and dials.<br>
+          <br> <button id="myBtn" class="change" >View Watch History</button>
+         </div></div></div>
+        </p></span>
+
     <div id="myModal" class="modal">
             <div class="modal-content">
               <span class="close">&times;</span>
@@ -97,7 +122,7 @@ hr {
                 </div>
                 <hr />
                 <div class="row">
-                          <table style="width:100%" id="details-tbl">
+                          <table style="table-layout: fixed; width: 100%" id="details-tbl">
                            <thead>
                                <th>Serial No</th>
                                <th>Batch Id</th>
@@ -117,13 +142,14 @@ hr {
               
               <div class="row">
                   <h4>Ownership History</h4>
-                  <table style="width:100%" id="owner-tbl">
+                  <table style="table-layout: fixed; width: 100%" id="owner-tbl">
                      <thead>
                          <tr>
                         <th>Owner</th>
                         <th>Date of procurement</th>
                         <th>Service Id</th>
                         <th>Insurance Id</th>
+                        <th>Trx Id</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -134,13 +160,14 @@ hr {
               </div>
               <div class="row">
                     <h4>Service History</h4>
-                    <table style="width:100%" id="service-tbl">
+                    <table style="table-layout: fixed; width: 100%" id="service-tbl">
                      <thead>
                         <tr>
                             <th>Service Id</th>
                             <th>Service Centre</th>
                             <th>Service Date</th>
                             <th>Service Details</th>
+                            <th>Trx Id</th>
                         </tr>
                     </thead>
                         <tbody>
@@ -151,11 +178,12 @@ hr {
                 </div>
                 <div class="row">
                 <h4>Insurance History</h4>
-                    <table style="width:100%" id="insurance-tbl">
+                    <table style="table-layout: fixed; width: 100%" id="insurance-tbl">
                        <thead> <tr>
                           <th>Insurance Id</th>
                             <th>Insurer</th>
-                            <th>Insurance expires on</th>  
+                            <th>Insurance expires on</th>
+                            <th>Trx Id</th> 
                         </tr>
                         </thead>
                         <tbody>
@@ -189,6 +217,7 @@ hr {
         // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
           modal.style.display = "none";
+          document.getElementById("viewdiv").style.display = "none";
         }
 
         // When the user clicks anywhere outside of the modal, close it
@@ -217,6 +246,7 @@ var token="";
 function ShowHideDiv(){
     var serialNoVal = $("#serial")[0].value;
     console.log('serialNoVal'+ serialNoVal);
+
    $(document).ready(function() {
 
  function LoadData(){
@@ -239,6 +269,8 @@ function ShowHideDiv(){
        console.log(response);
         debugger;
        $.each(response, function (i, item) {
+        var str = item.TxId;
+        str = str.slice(0,15);
 
         if (i == 0) {
                var y = 1;
@@ -257,20 +289,23 @@ function ShowHideDiv(){
             '</td><td>' + item.Value.date +
             '</td><td>' + item.Value.serviceId +
             '</td><td>' + item.Value.insuranceId +
-            '</td></tr>';
+            '</td><td>' + str + 
+            '...</td></tr>';
 
         if(item.Value.serviceId != "--" ){
         trHTMLService += '<tr><td>' + item.Value.serviceId +
                '</td><td>' + item.Value.serCentre +
                '</td><td>' + item.Value.dateOfService +
                '</td><td>' + item.Value.serviceDetails +
-               '</td></tr>';
+                '</td><td>' + str + 
+            '...</td></tr>';
         }
         if((item.Value.insurance != "--") && (item[i].Value.insuranceId != item[i-1].Value.insuranceId)){
         trHTMLInsurance += '<tr><td>'  + item.Value.insuranceId +
-            '</td><td>' + item.Value.insurance +
-             '</td><td>' + item.Value.insuranceExpiry +
-              '</td></tr>';
+              '</td><td>' + item.Value.insurance +
+              '</td><td>' + item.Value.insuranceExpiry +
+                '</td><td>' + str + 
+            '...</td></tr>';
         }    
         }
           else {
@@ -279,20 +314,23 @@ function ShowHideDiv(){
             '</td><td>' + item.Value.date +
             '</td><td>' + item.Value.serviceId +
             '</td><td>' + item.Value.insuranceId +
-            '</td></tr>';
+              '</td><td>' + str + 
+            '...</td></tr>';
   
       if(item.Value.serviceId != "--" ){
         trHTMLService += '<tr><td>' + item.Value.serviceId +
-               '</td><td>' + item.Value.serCentre +
-               '</td><td>' + item.Value.dateOfService +
-               '</td><td>' + item.Value.serviceDetails +
-               '</td></tr>';
+                '</td><td>' + item.Value.serCentre +
+                '</td><td>' + item.Value.dateOfService +
+                '</td><td>' + item.Value.serviceDetails +
+                  '</td><td>' + str + 
+            '...</td></tr>';
             }
             if((item.Value.insurance != "--") && (item[i].Value.insuranceId != item[i-1].Value.insuranceId)) {
         trHTMLInsurance += '<tr><td>' + item.Value.insuranceId +
-            '</td><td>' + item.Value.insurance +
-             '</td><td>' + item.Value.insuranceExpiry +
-              '</td></tr>';
+              '</td><td>' + item.Value.insurance +
+              '</td><td>' + item.Value.insuranceExpiry +
+                '</td><td>' + str + 
+            '...</td></tr>';
              }   
             }  
        });
@@ -361,10 +399,14 @@ function ShowHideDiv(){
  $('.loadData').click(function(){ 
        LoadData();
  });
-    $('#details-tbl').DataTable({"paging": false,"searching": false });
-    $('#owner-tbl').DataTable({"paging": false,"searching": false });
-    $('#service-tbl').DataTable({"paging": false,"searching": false });
-    $('#insurance-tbl').DataTable({"paging": false,"searching": false});
+ $('#details-tbl,#service-tbl,#owner-tbl,#insurance-tbl').dataTable({
+  "paging": false,"searching": false,
+              "bLengthChange": false,
+              "bFilter": false,
+              "bInfo": false,
+              "bAutoWidth": false,
+              "destory": true
+      });
   
   var q = $('#details-tbl').DataTable();
   var p = $('#owner-tbl').DataTable();

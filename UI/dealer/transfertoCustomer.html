@@ -74,6 +74,14 @@ hr {
   border-style: inset;
   border-width: 1px;
 }
+.alert1 {
+  background-color: #d6c1c1;
+  margin-left: 5px;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 70%;
+  color : maroon;
+}
 </style>
 </head>
 
@@ -81,14 +89,15 @@ hr {
     <div id="main">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="watches"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-home"> Home</span></a></li>
-          <li><a href="watch-customer"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-eye-open"> Watches with customers</span></a></li>
+          <li><a href="watch-customer"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-eye-open"> Watches@Customers</span></a></li>
           <li><a href="/"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-log-out"> Logout</span></a></li>
         </ul>
-          <span style="color:maroon;cursor:pointer" onclick="openNav()">&#9776;<img src="./public/images/rolex-logo.png" height="35" width="40"></span>
+          <span style="color:maroon;cursor:pointer" onclick="openNav()">&#9776;<img src="/images/rolex-logo.png" height="35" width="40"></span>
     </div>
-              <h3 class="text">Fill Shipping details</h3>
+              <h3 class="text">Fill Sale details</h3>
               <hr  />
-<div>
+<div class="container">
+  <div class="row">
     <form id="shipForm" action="" method="get" class="form-example">
 
               <div class="form-example">
@@ -129,11 +138,42 @@ hr {
               <button class="button" id="saveBtn" type="button">Confirm Sale</button>
               <input type="button" id="btn" value="Reset"/>
               </div>
-    </form>
-  </div>
-    <div id="alertmsg" class="alert alert-success" style="display: none" background-color="rgb(128, 128, 0)" color="black">
-    </div>
+        </div>
+      </form>
+      
+      <div id="question" style="display : none">
+        <br>
+        <div id="alertmsg" class="alert1" style="display: none">
+        </div><br>
+          <span>Do you have more watches to sell?</span>
+      <label for="chkYes2">
+        <input type="radio" id="chkYes_more" onclick="Continue()" />
+          Yes
+      </label>
+      <label for="chkNo2">
+        <input type="radio" id="chkNo_more" onclick="Continue()" />
+          No
+      </label>
+      </div>
+
+</div>
+    
 <script>
+function Continue() {
+        var chkYes2 = document.getElementById("chkYes_more");
+        var chkNo2 = document.getElementById("chkNo_more");
+        var action = document.getElementById("question");
+        var ship = document.getElementById("shipForm");
+            if (chkNo2.checked){
+              action.style.display = "none" ;
+              ship.reset();
+              window.location.href = "watches";
+            }
+            else {
+              action.style.display = "none" ;
+              ship.reset();
+            }
+      }
 
 function ShowHideDiv() {
             var chkYes = document.getElementById("chkYes");
@@ -211,8 +251,9 @@ $('#saveBtn').on('click', function () {
       }),
 
       success: function(data){
-        $('#alertmsg').html("Done! Watch shipped successfully!!").fadeIn('slow');
-        $('#alertmsg').delay(3000).fadeOut('slow');
+        $('#question').show();
+        $('#alertmsg').html("Watch successfully sold with Trx Id: "+ data[0]+ " in Block Number "+ data[1]).fadeIn('slow');
+        //$('#alertmsg').delay(3000).fadeOut('slow');
       },
       error: function (xhr, ajaxOptions, thrownError) {
            debugger;

@@ -53,7 +53,7 @@ tr:hover {background-color:rgb(225, 235, 236);}
 }
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
+  background-color: #fffdfd;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
@@ -62,14 +62,14 @@ tr:hover {background-color:rgb(225, 235, 236);}
 
 /* The Close Button */
 .close {
-  color: #aaaaaa;
+  color: #080808;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 .close:hover,
 .close:focus {
-  color: #000;
+  color: rgb(241, 3, 3);
   text-decoration: none;
   cursor: pointer;
 }
@@ -101,6 +101,14 @@ hr {
   border-style: inset;
   border-width: 1px;
 }
+.alert1 {
+  background-color: #d6c1c1;
+  margin-left: 5px;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 70%;
+  color : maroon;
+}
 </style>
 </head>
 
@@ -108,10 +116,10 @@ hr {
     <div id="main">
             <ul class="nav navbar-nav navbar-right" word-spacing=3px>
                 <li><a href="home"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-home"> Home</span></a></li>
-                <li><a href="watch-dealer"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-eye-open"> Watches with dealer</span></a></li>
+                <li><a href="watch-dealer"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-eye-open"> Rolex Retailers</span></a></li>
                 <li><a href="/"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-log-out"> Logout</span></a></li>
             </ul>
-            <span style="color:maroon;cursor:pointer" onclick="openNav()">&#9776;<img src="/images/rolex-logo.png" height="35" width="40"></span>
+            <span style="color:maroon;cursor:pointer" onclick="openNav()"><img src="/images/rolex-logo.png" height="35" width="40"></span>
     </div>
         <div id="main">
                 <table style="width:100%" id="mfg-watch-input">
@@ -143,9 +151,11 @@ hr {
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h3>Fill details</h3>
+                <h3><b>Add Product Details</b></h3>
                 <hr  />
             <div class="container">
+              <div class="row">
+                
                 <form class="form-example" id="addform" name= "input" action="#" method="get">
                 
                 <div class="form-example">
@@ -188,12 +198,30 @@ hr {
                 <input type="" id="specs" placeholder="Enter Specifications" required><br>
                 </div>
               </form>
-            </div>
-            <div id="alertmsg" class="alert alert-success" style="display: none" background-color="rgb(128, 128, 0)" color="black">
-              </div>
-
-            <button class="button" id="save" data-dismiss="modal" type="button" >Save Product</button>
+           
+              
+            <button class="button" id="save" data-dismiss="modal" type="button" ><b>Save Product</b></button>
             <input type="button" id="btn" value="Reset"/>
+         
+         
+            <div id="question" style="display : none">
+              <div id="alertmsg" class="alert1" style="display: none">
+              </div><br>
+                <span>Do you have more watches to add?</span>
+            <label for="chkYes">
+              <input type="radio" id="chkYes" onclick="Continue()" />
+                Yes
+            </label>
+            <label for="chkNo">
+              <input type="radio" id="chkNo" onclick="Continue()" />
+                No
+            </label>
+            </div>
+
+          
+          </div>
+        </div>
+           
             <hr  />
         </div>
       </div>
@@ -229,14 +257,37 @@ hr {
     modal1.style.display = "none";
   }
 
+  function Continue() {
+        var chkYes = document.getElementById("chkYes");
+        var chkNo = document.getElementById("chkNo");
+        var action = document.getElementById("question");
+        var form1 = document.getElementById("addform");
+            if (chkNo.checked){
+              modal1.style.display = "none" ;
+              form1.reset();
+              chkNo.checked = false;
+              chkYes.checked = false;
+              window.location.href = "watches";
+            }
+            else {
+             action.style.display = "none" ;
+             form1.reset();
+             chkNo.checked = false;
+             chkYes.checked = false;
+             //window.location.href = "watches";
+            }
+      }
+
+
+
 $(document).ready(function(){
 $("#btn").click(function(){
  /* Single line Reset function executes on click of Reset Button */
  $("#addform")[0].reset();
  });
-
 });
 
+ 
 $("#shipBtn").click(function(){
       window.location.href = "transfer";
 });
@@ -331,9 +382,16 @@ $(document).ready(function() {
        LoadData();
  });
  
-   $('#mfg-watch-input').DataTable({"paging":   false,"searching": false
+   $('#mfg-watch-input').DataTable({"paging":   false,
+    "searching": false,
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": false,
+    "bInfo": false,
+    "bAutoWidth": false
     });
    var t = $('#mfg-watch-input').DataTable();
+
  
  $('#save').on( 'click', function () {
     debugger;
@@ -353,7 +411,7 @@ $.ajax( {
      },
       url: 'http://localhost:4000/channels/mychannel/chaincodes/mycc',
       type: 'POST',
-      dataType: 'text',
+      dataType: 'json',
       traditional: true,
       contentType: "application/json", 
       data: JSON.stringify({ 
@@ -363,9 +421,11 @@ $.ajax( {
      }),
      
      success: function(data){
-     // alert('Correct');
-     $('#alertmsg').html("Done! Watch added successfully!!").fadeIn('slow');
-     $('#alertmsg').delay(3000).fadeOut('slow');
+      console.log(data);
+     // alert(data);
+     $('#question').show();
+     $('#alertmsg').html("Watch added successfully in Blockchain with Trx Id: " + data[0]+ " in Block Number "+ data[1]).fadeIn('slow');
+     //$('#alertmsg').delay(3000).fadeOut('slow');
 
    
      },

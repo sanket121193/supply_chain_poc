@@ -119,6 +119,7 @@ table, th, td {
   font-size: 15px;
   color:rgb(0, 0, 0);
 }
+.button4 {border-radius: 50%;}
 
 form.form-example {
     display: table;
@@ -138,10 +139,21 @@ hr {
   border-style: inset;
   border-width: 1px;
 }
+.alert1 {
+  background-color: #d6c1c1;
+  margin-left: 5px;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 70%;
+  color : maroon;
+}
 </style>
 </head>
 
-<body style="background-color:rgb(225, 235, 236);">
+<body background="/images/image1.jpg" width=90% height=619>
+  
+  
+
   <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a href="#" class="sidenavtop">Dashboard</a>
@@ -152,18 +164,13 @@ hr {
   <div id="main">
       
     <ul class="nav navbar-nav navbar-right">
-        <li><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-user">Logged in as Service Centre</span></li>
-        <li><a href="/"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-log-out"> Logout</span></a></li>
+        <li><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-user"> Rolex Auth. SC</span></li>
+        <li><a href="/"><span background-color= transparent style="font-size:15px;color:maroon" class="glyphicon glyphicon-log-out"> Logout</span></a></li>
     </ul>
     <span style="color:maroon;cursor:pointer" onclick="openNav()"><img src="../images/rolex-logo1.png" height="35" width="40"></span>
-    <span style="color:maroon;cursor:pointer">Got a new service request!</span>
-    <button id="myBtn"> Update </button></h4>
+    <span style="color:maroon;cursor:pointer;font-size:20px;"><b>Got a new service request!</b></span>
+    <button class="button button4" id="myBtn"> <b>Update </b></button></h4>
   </div>
-  <div class="container">
-      <img class="mySlides" src="/images/image1.jpg" width=100% height=619>
-  </div>
-    <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-    <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
   <div style="padding:0 16px">
   </div>
 
@@ -171,7 +178,7 @@ hr {
 <div id="myModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h3 font-family="sans-serif" color="maroon">Watch History</h3>
+    <h3 font-family="sans-serif" color="maroon"><b>Check Service History</b></h3><br>
     <div class="row">
       Enter serial number: <input type="text" placeholder="Enter Serial Number" id="serial" style="width: 350px;" />
       <button id="viewbutton" type="submit" onclick="ShowHideDiv()">View History</button> <br><br>
@@ -191,6 +198,7 @@ hr {
                      <th>Model Name</th>
                      <th>Date of Manufacture</th>
                      <th>Certificate ID</th>
+                     <th>Trx Id</th>
                  </thead>
                  <tbody>
 
@@ -208,6 +216,7 @@ hr {
                   <th>Service Centre</th>
                   <th>Service Date</th>
                   <th>Service Details</th>
+                  <th>Trx Id</th>
               </tr>
           </thead>
               <tbody>
@@ -269,8 +278,9 @@ hr {
                   <button class="button" id="resetBtn" type="reset">Reset</button>
                   </div>
         </form>
-        <div id="alertmsg" class="alert alert-success" style="display: none" background-color="rgb(128, 128, 0)" color="black">
-        </div>
+        <div id="question" style="display : none"></div>
+        <div id="alertmsg" class="alert1" style="display: none">
+        </div><div></div><br>
       </div>
         
 </div>
@@ -286,26 +296,6 @@ hr {
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 
-<script>
-  
-    var slideIndex = 1;
-    showDivs(slideIndex);
-    
-    function plusDivs(n) {
-      showDivs(slideIndex += n);
-    }
-    
-    function showDivs(n) {
-      var i;
-      var x = document.getElementsByClassName("mySlides");
-      if (n > x.length) {slideIndex = 1}
-      if (n < 1) {slideIndex = x.length}
-      for (i = 0; i < x.length; i++) {
-        x[i].style.display = "none";  
-      }
-      x[slideIndex-1].style.display = "block";  
-    }
-</script>
 
 <script>
 // Get the modal
@@ -334,6 +324,7 @@ resetbtn.onclick = function() {
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
 modal.style.display = "none";
+document.getElementById("viewdiv").style.display = "none";
 }
 
 
@@ -373,6 +364,8 @@ function ShowHideDiv(){
 
 $(document).ready(function() {
 
+  
+
 function LoadData(){
 console.log('serialNoVal'+ serialNoVal);
 $.ajax( {
@@ -391,6 +384,8 @@ debugger;
 console.log(response);
 debugger;
 $.each(response, function (i, item) {
+  var str = item.TxId;
+  str = str.slice(0,15);
 
 if (i == 0) {
      var y = 1;
@@ -402,24 +397,27 @@ trHTML += '<tr><td>' + item.Value.serialNo +
     '</td><td>' + item.Value.modelName +
     '</td><td>' + item.Value.date +
     '</td><td>' + item.Value.cftId +
-    '</td></tr>';
+    '</td><td>' + str + 
+    '...</td></tr>';
     
     if(item.Value.serviceId != "--" ){
         trHTMLService += '<tr><td>' + item.Value.serviceId +
-               '</td><td>' + item.Value.serCentre +
-               '</td><td>' + item.Value.dateOfService +
-               '</td><td>' + item.Value.serviceDetails +
-               '</td></tr>';
+                '</td><td>' + item.Value.serCentre +
+                '</td><td>' + item.Value.dateOfService +
+                '</td><td>' + item.Value.serviceDetails +
+                  '</td><td>' + str + 
+            '...</td></tr>';
         }
 }
 else {
   if(item.Value.serviceId != "--" ){
         trHTMLService += '<tr><td>' + item.Value.serviceId +
-               '</td><td>' + item.Value.serCentre +
-               '</td><td>' + item.Value.dateOfService +
-               '</td><td>' + item.Value.serviceDetails +
-               '</td></tr>';
-        }
+                '</td><td>' + item.Value.serCentre +
+                '</td><td>' + item.Value.dateOfService +
+                '</td><td>' + item.Value.serviceDetails +
+                  '</td><td>' + str + 
+            '...</td></tr>';
+          }
 }    
 });
 $('#details-tbl > tbody').empty();
@@ -480,9 +478,15 @@ GenerateToken();
 $('.loadData').click(function(){ 
 LoadData();
 });
-$('#details-tbl').DataTable({"paging": false,"searching": false });
-$('#service-tbl').DataTable({"paging": false,"searching": false });
-
+$('#details-tbl,#service-tbl').dataTable({
+  "paging": false,
+              "searching": false,
+              "bLengthChange": false,
+              "bFilter": false,
+              "bInfo": false,
+              "bAutoWidth": false,
+              "destory": true
+      });
 var q = $('#details-tbl').DataTable();
 var s = $('#service-tbl').DataTable();
 });
@@ -504,7 +508,7 @@ $.ajax( {
      },
       url: 'http://localhost:4000/channels/mychannel/chaincodes/mycc',
       type: 'POST',
-      dataType: 'text',
+      dataType: 'json',
       traditional: true,
       contentType: "application/json", 
       data: JSON.stringify({ 
@@ -515,9 +519,8 @@ $.ajax( {
      
      success: function(data){
      // alert('Correct');
-     $('#alertmsg').html("Done! Service details updated successfully!!").fadeIn('slow');
-     $('#alertmsg').delay(3000).fadeOut('slow');
-
+     $('#question').show();
+        $('#alertmsg').html("Watch successfully shipped with Trx Id: " + data[0]+ " in Block Number "+ data[1]).fadeIn('slow');
    
      },
      error: function (xhr, ajaxOptions, thrownError) {

@@ -37,7 +37,7 @@ tr:hover {background-color:rgb(225, 235, 236);}
     <div id="main">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="home"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-home"> Home</span></a></li>
-                <li><a href="watches"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-eye-open"> Watches with you</span></a></li>
+                <li><a href="watches"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-eye-open"> Watches@Rolex</span></a></li>
                 <li><a href="/"><span style="font-size:15px;color:maroon" class="glyphicon glyphicon-log-out"> Logout</span></a></li>
             </ul>
             <span style="color:maroon;cursor:pointer" onclick="openNav()">&#9776;<img src="/images/rolex-logo.png" height="35" width="40"></span>
@@ -72,6 +72,8 @@ tr:hover {background-color:rgb(225, 235, 236);}
 
 <script>
     $(document).ready(function() {
+
+      
  function LoadData(){
    //alert(token);
    $.ajax( {
@@ -151,10 +153,18 @@ tr:hover {background-color:rgb(225, 235, 236);}
        LoadData();
  });
  
-   $('#dealer-watch-input').DataTable({"paging":   false,"searching": false
+ $('#dealer-watch-input').DataTable({"paging":   false,
+    "searching": false,
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": false,
+    "bInfo": false,
+    "bAutoWidth": false,
+    "destory": true
     });
+    
    var t = $('#dealer-watch-input').DataTable();
-});
+  });
 </script>
 </body>
 </html>
