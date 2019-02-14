@@ -369,7 +369,7 @@ $(document).ready(function() {
 function LoadData(){
 console.log('serialNoVal'+ serialNoVal);
 $.ajax( {
-url: 'http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer0.org1.rolex.com&fcn=getproducthistory&args=%5B%22' + serialNoVal+ '%22%5D',
+url: 'http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer0.org3.service.com&fcn=getproducthistory&args=%5B%22' + serialNoVal+ '%22%5D',
 type: 'GET',
 dataType: 'json',
 data: { },

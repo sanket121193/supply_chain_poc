@@ -245,7 +245,7 @@ function ShowHideDiv(){
  function LoadData(){
     console.log('serialNoVal'+ serialNoVal);
    $.ajax( {
-     url: 'http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer0.org1.rolex.com&fcn=getproducthistory&args=%5B%22' + serialNoVal+ '%22%5D',
+     url: 'http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer0.org4.insurer.com&fcn=getproducthistory&args=%5B%22' + serialNoVal+ '%22%5D',
      type: 'GET',
      dataType: 'json',
      data: { },
@@ -292,7 +292,7 @@ function ShowHideDiv(){
                 '</td><td>' + str + 
             '...</td></tr>';
         }
-        if((item.Value.insurance != "--") && (item[i].Value.insuranceId != item[i-1].Value.insuranceId)){
+        if(item.Value.insurance != "--"){
         trHTMLInsurance += '<tr><td>'  + item.Value.insuranceId +
             '</td><td>' + item.Value.insurance +
              '</td><td>' + item.Value.insuranceExpiry +
@@ -318,7 +318,7 @@ function ShowHideDiv(){
             '...</td></tr>';
                   }
                   
-                  if((item.Value.insurance != "--") && (item[i].Value.insuranceId != item[i-1].Value.insuranceId)){
+                  if(item.Value.insurance != "--"){
               trHTMLInsurance += '<tr><td>' + item.Value.insuranceId +
                   '</td><td>' + item.Value.insurance +
                   '</td><td>' + item.Value.insuranceExpiry +
