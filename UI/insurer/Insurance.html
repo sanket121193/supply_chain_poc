@@ -141,6 +141,7 @@ hr {
                         <th>Date of procurement</th>
                         <th>Service Id</th>
                         <th>Insurance Id</th>
+                        <th>TraxId</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -158,6 +159,7 @@ hr {
                             <th>Service Centre</th>
                             <th>Service Date</th>
                             <th>Service Details</th>
+                            <th>TraxId</th>
                         </tr>
                     </thead>
                         <tbody>
@@ -173,6 +175,7 @@ hr {
                           <th>Insurance Id</th>
                           <th>Insurer</th>
                           <th>Insurance expires on</th>  
+                          <th>TraxId</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -259,7 +262,8 @@ function ShowHideDiv(){
        console.log(response);
         debugger;
        $.each(response, function (i, item) {
-
+        var str = item.TxId;
+        str = str.slice(0,15);
         if (i == 0) {
                var y = 1;
         }
@@ -277,20 +281,23 @@ function ShowHideDiv(){
             '</td><td>' + item.Value.date +
             '</td><td>' + item.Value.serviceId +
             '</td><td>' + item.Value.insuranceId +
-            '</td></tr>';
+              '</td><td>' + str + 
+            '...</td></tr>';
 
         if(item.Value.serviceId != "--" ){
         trHTMLService += '<tr><td>' + item.Value.serviceId +
                '</td><td>' + item.Value.serCentre +
                '</td><td>' + item.Value.dateOfService +
                '</td><td>' + item.Value.serviceDetails +
-               '</td></tr>';
+                '</td><td>' + str + 
+            '...</td></tr>';
         }
         if((item.Value.insurance != "--") && (item[i].Value.insuranceId != item[i-1].Value.insuranceId)){
         trHTMLInsurance += '<tr><td>'  + item.Value.insuranceId +
             '</td><td>' + item.Value.insurance +
              '</td><td>' + item.Value.insuranceExpiry +
-              '</td></tr>';
+              '</td><td>' + str + 
+            '...</td></tr>';
         } 
         }
           else {
@@ -299,21 +306,24 @@ function ShowHideDiv(){
                   '</td><td>' + item.Value.date +
                   '</td><td>' + item.Value.serviceId +
                   '</td><td>' + item.Value.insuranceId +
-                  '</td></tr>';
+                    '</td><td>' + str + 
+            '...</td></tr>';
 
               if(item.Value.serviceId != "--" ){
               trHTMLService += '<tr><td>' + item.Value.serviceId +
                     '</td><td>' + item.Value.serCentre +
                     '</td><td>' + item.Value.dateOfService +
                     '</td><td>' + item.Value.serviceDetails +
-                    '</td></tr>';
+                      '</td><td>' + str + 
+            '...</td></tr>';
                   }
                   
                   if((item.Value.insurance != "--") && (item[i].Value.insuranceId != item[i-1].Value.insuranceId)){
               trHTMLInsurance += '<tr><td>' + item.Value.insuranceId +
                   '</td><td>' + item.Value.insurance +
                   '</td><td>' + item.Value.insuranceExpiry +
-                    '</td></tr>';
+                    '</td><td>' + str + 
+            '...</td></tr>';
                   }   
             }     
   });
