@@ -270,11 +270,11 @@ curl -s -X POST \
 echo
 echo
 
-echo "POST instantiate chaincode on Org1"
+echo "POST instantiate chaincode on Org2"
 echo
 curl -s -X POST \
   http://localhost:4000/channels/mychannel/chaincodes \
-  -H "authorization: Bearer $ORG1_TOKEN" \
+  -H "authorization: Bearer $ORG2_TOKEN" \
   -H "content-type: application/json" \
   -d "{
 	\"chaincodeName\":\"mycc\",
